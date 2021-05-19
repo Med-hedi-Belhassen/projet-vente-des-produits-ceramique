@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Liste Matiere {% endblock %}
+
+{% block body %}
+    <h1>  Liste Matiere :</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Designation</th>
+                <th>Caracteristique</th>
+                <th>Couleur</th>
+                <th>Prix</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for matiere in matieres %}
+            <tr>
+                <td>{{ matiere.id }}</td>
+                <td>{{ matiere.designation }}</td>
+                <td>{{ matiere.caracteristique }}</td>
+                <td>{{ matiere.couleur }}</td>
+                <td>{{ matiere.prix }}</td>
+                <td>
+                    <a href="{{ path('matiere_show', {'id': matiere.id}) }}" class="btn btn-dark"><i class="fas fa-eye"></i>Détail</a>
+                    {% if is_granted('ROLE_EDITOR') %} 
+                    <a href="{{ path('matiere_edit', {'id': matiere.id}) }}" class="btn btn-success"><i class="fas fa-edit"></i>Modifier</a>
+                    <a href="{{ path('matiere_delete', {'id': matiere.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i>Suprimer</a>
+                     {% endif %} 
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">aucun matiére trouver</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

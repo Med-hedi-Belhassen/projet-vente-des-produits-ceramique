@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <h1>Produit</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ produit.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ produit.titre }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ produit.prix }}</td>
+            </tr>
+             <tr>
+                <th>Matiere</th>
+                <td>{{ produit.Matiers.designation}}</td>
+            </tr>
+            <tr>
+                <th>Images</th>
+                <td>
+                {% for image in produit.images %}
+                 <div>
+                <img src="{{ asset('/uploads/'~image.name) }}" alt="" width="150">
+                 </div>
+               {% endfor %}
+             </td>
+        </tbody>
+    </table>
+
+  
+     {% if is_granted('ROLE_EDITOR') %} 
+
+    <a href="{{ path('produit_edit', {'id': produit.id}) }} " class="btn  btn-success btn-lg">edit</a>
+      
+    {{ include('produit/_delete_form.html.twig') }}
+     {% endif %} 
+         <a href="{{ path('produit_index') }}" class="btn btn-dark btn-lg">back to list</a>
+{% endblock %}

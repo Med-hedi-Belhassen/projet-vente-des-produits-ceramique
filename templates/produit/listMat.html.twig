@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+    
+  <div class="bg-light p-3"> <h1>Les produits</h1> </div>
+{{ form_start(form) }}
+
+
+   <div class="form-row align-items-end" >
+  <div class="col">
+   {{ form_row(form.Matiers) }}
+  </div>
+
+     <div class="col">
+      <div class="form-group">
+      <button type="submit" class="btn btn-success">Rechercher</button>
+    </div>
+    </div>
+  </div>
+{{ form_end(form) }}
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% if produits %}
+        {% for produit in produits %}
+          <div class="col"> 
+                <div class="card border-primary mb-S4" >
+                   <div style=" height: 250px; width: 100%;">
+                    <img class="card-img-top" src="{{ asset('/uploads/'~produit.images.first.name) }}" alt="Card image cap" style=" height: 250px">
+                    </div>
+                 <div class="card-body">
+                    <h5 class="card-title">{{ produit.titre}}</h5>
+                    <p class="card-text">{{ produit.description }}</p>
+                 </div>
+                 <ul class="list-group list-group-flush">
+                  <li class="list-group-item">id: {{ produit.id }}</li>
+                 <li class="list-group-item">prix :{{ produit.prix }} </li>
+                       <li class="list-group-item">Matiére :{{ produit.Matiers.designation }} </li>
+                  </ul>
+                 <div class="card-body">
+              
+                 </div>
+                 <div class="card-footer" align="center">
+
+                  <a href="{{ path('produit_show', {'id': produit.id}) }}" class="btn btn-dark btn-lg"><i class="fas fa-eye"></i>Détail</a>
+                  <a href="{{ path('cart_add', {'id': produit.id}) }}" class="btn btn-primary btn-lg"> <i class="fas fa-shopping-cart mr-1"></i> ajouter au panier</a>
+
+                    {% if is_granted('ROLE_EDITOR') %}
+                  <a href="{{ path('produit_edit', {'id': produit.id}) }}" class="btn btn-success btn-lg"><i class="fas fa-edit"></i>edit</a>
+                  <a href="{{ path('produit_delete', {'id': produit.id}) }}" class="btn btn-danger btn-lg"><i class="fas fa-trash"></i>Suprimer</a>
+                   {% endif %}
+                                </div>
+               </div>
+        </div>  
+       {% endfor %}
+      {% else %}
+        
+                <div> no records found</div> 
+              
+  {% endif %}
+       
+  
+{% endblock %}
